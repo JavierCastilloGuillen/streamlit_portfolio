@@ -89,7 +89,7 @@ def min_func_sharpe(weights):
 
 # Sidebar
 st.sidebar.header('Select starting year')
-startyear = st.sidebar.selectbox('Year', list(reversed(range(2016,2021))))
+startyear = st.sidebar.selectbox('Year', list(reversed(range(2013,2021))))
 st.sidebar.header('Stock selection to optimize')
 
 stock_1 = st.sidebar.text_input("Asset 1", value='AAPL'.upper())
