@@ -86,7 +86,7 @@ stock_2 = st.sidebar.text_input("Asset 2", value='F'.upper())
 stock_3 = st.sidebar.text_input("Asset 3", value='MSFT'.upper())
 stock_4= st.sidebar.text_input("Asset 4", value='JPM'.upper())
 
-weights = np.array([0.25,0.25,0.25,0.25,])
+weights = np.array([0.25,0.25,0.25,0.25])
 
 st.write("""
     # Porfolio Optimization Tool
