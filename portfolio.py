@@ -89,15 +89,16 @@ def min_func_sharpe(weights):
 
 # Sidebar
 st.sidebar.header('Select starting year')
-startyear = st.sidebar.selectbox('Year', list(reversed(range(2016,2021))))
+startyear = st.sidebar.selectbox('Year', list(reversed(range(2012,2021))))
 st.sidebar.header('Stock selection to optimize')
 
 stock_1 = st.sidebar.text_input("Asset 1", value='AAPL'.upper())
 stock_2 = st.sidebar.text_input("Asset 2", value='F'.upper())
 stock_3 = st.sidebar.text_input("Asset 3", value='MSFT'.upper())
-stock_4 = st.sidebar.text_input("Asset 4", value='JPM'.upper())
 
-weights = np.array([0.25,0.25,0.25,0.25])
+= st.sidebar.text_input("Asset 4", value='JPM'.upper())
+stock_5 = st.sidebar.text_input("Asset 4", value='KO'.upper())
+weights = np.array([0.20,0.20,0.20,0.20])
 
 st.write("""
     # Porfolio Optimization Tool
@@ -118,7 +119,7 @@ expander.markdown("""
     * For the example data is gathered using Yahoo! Finance. Use that ticker format. Ex: S&P500 = [^GSPC](https://finance.yahoo.com/quote/%5EGSPC/) or [YPFD.BA](https://finance.yahoo.com/quote/YPFD.BA/), [BBVA.MC](https://es.finance.yahoo.com/quote/bbva.mc?ltr=1) for local markets.
     """)
 
-symbols = [stock_1, stock_2, stock_3, stock_4]
+symbols = [stock_1, stock_2, stock_3, stock_4, stock_5]
 noa = len(symbols)
 
 data = get_data(symbols)
@@ -201,12 +202,12 @@ stars = show_ef_ft_port(pvols,prets,tvols,trets)
 ## Dataframes to plot results
 d_s = {'Return': values_sharpe[0], 'Volatility': values_sharpe[1], 'Sharpe Ratio':values_sharpe[2]}
 df_s = pd.DataFrame(d_s, index=[0])
-d_sa = {stock_1: results_sharpe[0], stock_2: results_sharpe[1],stock_3: results_sharpe[2],stock_4 : results_sharpe[3]}
+d_sa = {stock_1: results_sharpe[0], stock_2: results_sharpe[1],stock_3: results_sharpe[2],stock_4 : results_sharpe[3], stock_5 : results_sharpe[4]}
 df_sa = pd.DataFrame(d_sa, index=[0])
 
 d_v = {'Return': values_var[0], 'Volatility': values_var[1], 'Sharpe Ratio':values_var[2]}
 df_v = pd.DataFrame(d_v, index=[0])
-d_va = {stock_1: results_var[0], stock_2: results_var[1],stock_3: results_var[2],stock_4 : results_var[3]}
+d_va = {stock_1: results_var[0], stock_2: results_var[1],stock_3: results_var[2],stock_4 : results_var[3], stock_5 : results_sharpe[4]}
 df_va = pd.DataFrame(d_va, index=[0])
 
 
@@ -275,7 +276,7 @@ expander.markdown("""
     * Note this is a public example, some capabilities are limited to simplify the app. If you have a doubt or you wish any other usage, get in touch.
     * Limitations: Number of iteration for MCS, number of assets, dates, data source, metrics to get specific porftolios other than Sharpe and Volatility, etc. 
     * If you've got any feedback or comment, I'll be happy to read it ;). 
-    * For this examples, ideas and more contact [here.](mailto:jcgmarkets@gmail.com)
+    * For this examples, ideas and more contact [here.](https://jcgmarkets.com/en/javier-castillo/)
     """)
 
 st.write("""
