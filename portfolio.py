@@ -87,6 +87,9 @@ def min_func_variance(weights):
 def min_func_sharpe(weights):
     return -statistics(weights)[2]
 
+
+
+
 # Sidebar
 st.sidebar.header('Select starting year')
 startyear = st.sidebar.selectbox('Year', list(reversed(range(2012,2021))))
@@ -95,19 +98,16 @@ st.sidebar.header('Stock selection to optimize')
 stock_1 = st.sidebar.text_input("Asset 1", value='AAPL'.upper())
 stock_2 = st.sidebar.text_input("Asset 2", value='F'.upper())
 stock_3 = st.sidebar.text_input("Asset 3", value='MSFT'.upper())
-stock_4 = st.sidebar.text_input("Asset 4", value='JPM'.upper())
+stock_4= st.sidebar.text_input("Asset 4", value='JPM'.upper())
 stock_5 = st.sidebar.text_input("Asset 5", value='KO'.upper())
 
-weights = np.array([0.20,0.20,0.20,0.20,0.20])
+weights = np.array([0.20,0.20,0.20,0.20])
 
 st.write("""
     # Porfolio Optimization Tool
-
     On this example we will apply the ***Efficient Frontier*** implementation using MonteCarlo Simulations from the [Modern Portfolio Theory (MPT)](https://corporatefinanceinstitute.com/resources/knowledge/trading-investing/modern-portfolio-theory-mpt/) to define and optimize 2 portfolio examples.
-
     One by *reducing volatility* and other by getting *optimal Sharpe Ratio*. 
     ***
-
     """)
 
 expander = st.expander('How does it work?')
@@ -119,7 +119,7 @@ expander.markdown("""
     * For the example data is gathered using Yahoo! Finance. Use that ticker format. Ex: S&P500 = [^GSPC](https://finance.yahoo.com/quote/%5EGSPC/) or [YPFD.BA](https://finance.yahoo.com/quote/YPFD.BA/), [BBVA.MC](https://es.finance.yahoo.com/quote/bbva.mc?ltr=1) for local markets.
     """)
 
-symbols = [stock_1, stock_2, stock_3, stock_4, stock_5]
+symbols = [stock_1, stock_2, stock_3, stock_4]
 noa = len(symbols)
 
 data = get_data(symbols)
@@ -151,11 +151,8 @@ pvols = np.array(pvols)
 
 st.write("""
     ### 1. Asset metrics
-
     This is the performance of your selection, from the selected date. A lot of metrics can be extracted from the stock selection. 
-
     Do you think it's a good selection? Does this asset selection match your ***risk profile***? How they would have perform from your date selection?
-
     """)
 
 st.table(df_eq)
@@ -164,9 +161,7 @@ st.plotly_chart(fig, use_container_width=True)
 
 st.write("""
     ### 2. Your MonteCarlo Simulation
-
     On this chart, you'll have the ***Expected Volatility***, ***Expected Return** and ***Sharpe Ratio*** for the simulated weight distribution.
-
     Each single dot, correspond to a ***different weight allocation portfolio***.
     However, from all of them, we want to obtain those portfolios with 2 characteristics on this example:
     The less volatile for the higher returns *(Green Dot on chart below)*, and the one with the optimal Sharpe Ratio *(Blue Dot on chart below)*.
@@ -202,18 +197,17 @@ stars = show_ef_ft_port(pvols,prets,tvols,trets)
 ## Dataframes to plot results
 d_s = {'Return': values_sharpe[0], 'Volatility': values_sharpe[1], 'Sharpe Ratio':values_sharpe[2]}
 df_s = pd.DataFrame(d_s, index=[0])
-d_sa = {stock_1: results_sharpe[0], stock_2: results_sharpe[1],stock_3: results_sharpe[2],stock_4 : results_sharpe[3], stock_5 : results_sharpe[4]}
+d_sa = {stock_1: results_sharpe[0], stock_2: results_sharpe[1],stock_3: results_sharpe[2],stock_4 : results_sharpe[3]}
 df_sa = pd.DataFrame(d_sa, index=[0])
 
 d_v = {'Return': values_var[0], 'Volatility': values_var[1], 'Sharpe Ratio':values_var[2]}
 df_v = pd.DataFrame(d_v, index=[0])
-d_va = {stock_1: results_var[0], stock_2: results_var[1],stock_3: results_var[2],stock_4 : results_var[3], stock_5 : results_sharpe[4]}
+d_va = {stock_1: results_var[0], stock_2: results_var[1],stock_3: results_var[2],stock_4 : results_var[3]}
 df_va = pd.DataFrame(d_va, index=[0])
 
 
 st.write("""
     ### 3. Optimal Sharpe Portfolio
-
     ***Sharpe ratio:*** One of the most popular performance evaluation metrics, it
     measures the excess return (over the risk-free rate) per unit of standard
     deviation. When no risk-free rate is provided, the default assumption is that it is
@@ -230,7 +224,6 @@ st.pyplot(sharpe_chart)
 
 st.write("""
     ### 4. Minimum Variance Portfolio
-
     The ***Minimum Variance*** Portfolio could be described as well as the less volatile portfolio.
     The weight distribution below corresponds to this metrics.
     """)
@@ -246,20 +239,14 @@ st.pyplot(variance_chart)
 
 st.write("""
     ### 5. Where this portfolios are located?
-
     As expected, the portfolios are located over the ***Efficient Frontier***. 
-
     The ***efficient frontier*** is comprised of all optimal portfolios with a higher return than the
     absolute minimum variance portfolio. These portfolios dominate all other portfolios in
     terms of expected returns given a certain risk level.
     
-
     ***Green Dot:*** Minimum Variance Portfolio (Less volatile for higher return).
-
     ***Blue Dot:*** Optimal Sharpe Ratio (Higer return for less volatility)
-
     Portfolios with different metrics can be obtained, however, for this open example we will leave it here.
-
     """)
 st.pyplot(stars)
 
@@ -268,7 +255,6 @@ st.write("""
     
     Further analysis can be continued from here. For this public script we will stop here for now. 
     Repository will be available soon on [GitHub](https://github.com/JavierCastilloGuillen).
-
     """)
 
 expander = st.expander('Notes / Information / Contact')
@@ -281,7 +267,6 @@ expander.markdown("""
 
 st.write("""
     #### References:
-
     1. Cf. Markowitz, Harry (1952): “Portfolio Selection.” Journal of Finance, Vol. 7, 77-91.
     2. Hilpisch, Yves (2015): “Python For Finance. Analyze Big Financial Data”.
     3. Rothwell, Kevin (2020): “Applied Financial Advice and Wealth Management”
