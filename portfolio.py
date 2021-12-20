@@ -1,4 +1,4 @@
-import numpy as np
+  import numpy as np
 import datetime as dt
 import pandas as pd
 import pandas_datareader as pdr
@@ -73,6 +73,9 @@ def min_func_variance(weights):
 def min_func_sharpe(weights):
     return -statistics(weights)[2]
 
+
+
+
 # Sidebar
 st.sidebar.header('Select starting year')
 startyear = st.sidebar.selectbox('Year', list(reversed(range(2012,2021))))
@@ -82,9 +85,8 @@ stock_1 = st.sidebar.text_input("Asset 1", value='AAPL'.upper())
 stock_2 = st.sidebar.text_input("Asset 2", value='F'.upper())
 stock_3 = st.sidebar.text_input("Asset 3", value='MSFT'.upper())
 stock_4= st.sidebar.text_input("Asset 4", value='JPM'.upper())
-stock_5 = st.sidebar.text_input("Asset 5", value='KO'.upper())
 
-weights = np.array([0.20,0.20,0.20,0.20, 0.20])
+weights = np.array([0.25,0.25,0.25,0.25,])
 
 st.write("""
     # Porfolio Optimization Tool
@@ -102,7 +104,7 @@ expander.markdown("""
     * For the example data is gathered using Yahoo! Finance. Use that ticker format. Ex: S&P500 = [^GSPC](https://finance.yahoo.com/quote/%5EGSPC/) or [YPFD.BA](https://finance.yahoo.com/quote/YPFD.BA/), [BBVA.MC](https://es.finance.yahoo.com/quote/bbva.mc?ltr=1) for local markets.
     """)
 
-symbols = [stock_1, stock_2, stock_3, stock_4, stock_5]
+symbols = [stock_1, stock_2, stock_3, stock_4]
 noa = len(symbols)
 
 data = get_data(symbols)
@@ -180,12 +182,12 @@ stars = show_ef_ft_port(pvols,prets,tvols,trets)
 ## Dataframes to plot results
 d_s = {'Return': values_sharpe[0], 'Volatility': values_sharpe[1], 'Sharpe Ratio':values_sharpe[2]}
 df_s = pd.DataFrame(d_s, index=[0])
-d_sa = {stock_1: results_sharpe[0], stock_2: results_sharpe[1],stock_3: results_sharpe[2],stock_4 : results_sharpe[3], stock_5 : results_sharpe[4]}
+d_sa = {stock_1: results_sharpe[0], stock_2: results_sharpe[1],stock_3: results_sharpe[2],stock_4 : results_sharpe[3]}
 df_sa = pd.DataFrame(d_sa, index=[0])
 
 d_v = {'Return': values_var[0], 'Volatility': values_var[1], 'Sharpe Ratio':values_var[2]}
 df_v = pd.DataFrame(d_v, index=[0])
-d_va = {stock_1: results_var[0], stock_2: results_var[1],stock_3: results_var[2],stock_4 : results_var[3], stock_5 : results_var[4]}
+d_va = {stock_1: results_var[0], stock_2: results_var[1],stock_3: results_var[2],stock_4 : results_var[3]}
 df_va = pd.DataFrame(d_va, index=[0])
 
 
@@ -254,5 +256,4 @@ st.write("""
     2. Hilpisch, Yves (2015): “Python For Finance. Analyze Big Financial Data”.
     3. Rothwell, Kevin (2020): “Applied Financial Advice and Wealth Management”
     4. [Streamlit documentation](https://docs.streamlit.io/library/api-reference)
-    """)  
-
+    """)
