@@ -100,6 +100,7 @@ stock_2 = st.sidebar.text_input("Asset 2", value='F'.upper())
 stock_3 = st.sidebar.text_input("Asset 3", value='MSFT'.upper())
 stock_4= st.sidebar.text_input("Asset 4", value='JPM'.upper())
 stock_5 = st.sidebar.text_input("Asset 5", value='KO'.upper())
+
 weights = np.array([0.20,0.20,0.20,0.20, 0.20])
 
 st.write("""
@@ -201,7 +202,7 @@ df_sa = pd.DataFrame(d_sa, index=[0])
 
 d_v = {'Return': values_var[0], 'Volatility': values_var[1], 'Sharpe Ratio':values_var[2]}
 df_v = pd.DataFrame(d_v, index=[0])
-d_va = {stock_1: results_var[0], stock_2: results_var[1],stock_3: results_var[2],stock_4 : results_var[3], stock_5 : results_sharpe[4]}
+d_va = {stock_1: results_var[0], stock_2: results_var[1],stock_3: results_var[2],stock_4 : results_var[3], stock_5 : results_var[4]}
 df_va = pd.DataFrame(d_va, index=[0])
 
 
