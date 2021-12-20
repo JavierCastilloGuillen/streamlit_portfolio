@@ -89,7 +89,7 @@ def min_func_sharpe(weights):
 
 # Sidebar
 st.sidebar.header('Select starting year')
-startyear = st.sidebar.selectbox('Year', list(reversed(range(2013,2021))))
+startyear = st.sidebar.selectbox('Year', list(reversed(range(2016,2021))))
 st.sidebar.header('Stock selection to optimize')
 
 stock_1 = st.sidebar.text_input("Asset 1", value='AAPL'.upper())
@@ -97,7 +97,6 @@ stock_2 = st.sidebar.text_input("Asset 2", value='F'.upper())
 stock_3 = st.sidebar.text_input("Asset 3", value='MSFT'.upper())
 stock_4 = st.sidebar.text_input("Asset 4", value='JPM'.upper())
 
-symbols = [stock_1, stock_2, stock_3, stock_4]
 weights = np.array([0.25,0.25,0.25,0.25])
 
 st.write("""
@@ -123,6 +122,7 @@ symbols = [stock_1, stock_2, stock_3, stock_4]
 noa = len(symbols)
 
 data = get_data(symbols)
+
 # Essential Metrics
 rets = np.log(data / data.shift(1))
 returns_plot = rets.cumsum().apply(np.exp)
@@ -181,14 +181,13 @@ opts = sco.minimize(min_func_sharpe, noa * [1. / noa,], method='SLSQP', bounds=b
 results_sharpe = opts['x'].round(3)
 values_sharpe = statistics(opts['x']).round(3)
 
-
 optv = sco.minimize(min_func_variance, noa * [1. / noa,], method='SLSQP', bounds=bnds, constraints=cons)
 results_var = optv['x'].round(3)
 values_var = statistics(optv['x']).round(3)
 
-
 trets = np.linspace(prets.min(), prets.max(), 100)
 tvols = []
+
 for tret in trets:
    cons = ({'type': 'eq', 'fun': lambda x: statistics(x)[0] - tret},
             {'type': 'eq', 'fun': lambda x: np.sum(x) - 1})
@@ -202,8 +201,13 @@ stars = show_ef_ft_port(pvols,prets,tvols,trets)
 ## Dataframes to plot results
 d_s = {'Return': values_sharpe[0], 'Volatility': values_sharpe[1], 'Sharpe Ratio':values_sharpe[2]}
 df_s = pd.DataFrame(d_s, index=[0])
+d_sa = {stock_1: results_sharpe[0], stock_2: results_sharpe[1],stock_3: results_sharpe[2],stock_4 : results_sharpe[3]}
+df_sa = pd.DataFrame(d_sa, index=[0])
+
 d_v = {'Return': values_var[0], 'Volatility': values_var[1], 'Sharpe Ratio':values_var[2]}
 df_v = pd.DataFrame(d_v, index=[0])
+d_va = {stock_1: results_var[0], stock_2: results_var[1],stock_3: results_var[2],stock_4 : results_var[3]}
+df_va = pd.DataFrame(d_va, index=[0])
 
 
 st.write("""
@@ -216,6 +220,10 @@ st.write("""
     performance.
     """)
 st.table(df_s)
+st.write("""
+    ##### Weight Distribution
+    """)
+st.table(df_sa)
 sharpe_chart = create_chart(symbols,results_sharpe)
 st.pyplot(sharpe_chart)
 
@@ -226,6 +234,11 @@ st.write("""
     The weight distribution below corresponds to this metrics.
     """)
 st.table(df_v)
+st.write("""
+    ##### Weight Distribution
+    """)
+st.table(df_va)
+
 variance_chart = create_chart(symbols,results_var)
 st.pyplot(variance_chart)
 
@@ -234,6 +247,11 @@ st.write("""
     ### 5. Where this portfolios are located?
 
     As expected, the portfolios are located over the ***Efficient Frontier***. 
+
+    The ***efficient frontier*** is comprised of all optimal portfolios with a higher return than the
+    absolute minimum variance portfolio. These portfolios dominate all other portfolios in
+    terms of expected returns given a certain risk level.
+    
 
     ***Green Dot:*** Minimum Variance Portfolio (Less volatile for higher return).
 
@@ -245,18 +263,26 @@ st.write("""
 st.pyplot(stars)
 
 st.write("""
+    ### Final Considerations
+    
+    Further analysis can be continued from here. For this public script we will stop here for now. 
+    Repository will be available soon on [GitHub](https://github.com/JavierCastilloGuillen).
+
+    """)
+
+expander = st.expander('Notes / Information / Contact')
+expander.markdown("""
+    * Note this is a public example, some capabilities are limited to simplify the app. If you have a doubt or you wish any other usage, get in touch.
+    * Limitations: Number of iteration for MCS, number of assets, dates, data source, metrics to get specific porftolios other than Sharpe and Volatility, etc. 
+    * If you've got any feedback or comment, I'll be happy to read it ;). 
+    * For this examples, ideas and more contact [here.](mailto:jcgmarkets@gmail.com)
+    """)
+
+st.write("""
     #### References:
 
     1. Cf. Markowitz, Harry (1952): “Portfolio Selection.” Journal of Finance, Vol. 7, 77-91.
     2. Hilpisch, Yves (2015): “Python For Finance. Analyze Big Financial Data”.
-    3. [Streamlit documentation](https://docs.streamlit.io/library/api-reference)
-    """)
-
-st.subheader('Final Considerations')
-expander = st.expander('Notes / Information / Contact')
-expander.markdown("""
-    * Note this is a public example, some capabilities are limited.
-    * Number of iteration for MCS, number of assets, dates, data source, metrics to get specific porftolios other than Sharpe and Volatility, etc. 
-    * If you've got any feedback or comment, I'll be happy to read it ;). 
-    * For this examples, ideas and more contact [here.](mailto:jcgmarkets@gmail.com)
-    """)
+    3. Rothwell, Kevin (2020): “Applied Financial Advice and Wealth Management”
+    4. [Streamlit documentation](https://docs.streamlit.io/library/api-reference)
+    """)  
