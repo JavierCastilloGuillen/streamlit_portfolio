@@ -62,20 +62,6 @@ def min_func_port(weights):
     return statistics(weights)[1]
 
 def statistics(weights):
-    ''' Returns portfolio statistics.
-    Parameters
-    ==========
-    weights : array-like
-    weights for different securities in portfolio
-    Returns
-    =======
-    pret : float
-    expected portfolio return
-    pvol : float
-    expected portfolio volatility
-    pret / pvol : float
-    Sharpe ratio for rf=0
-    '''
     weights = np.array(weights)
     pret = np.sum(rets.mean() * weights) * 252
     pvol = np.sqrt(np.dot(weights.T, np.dot(rets.cov() * 252, weights)))
@@ -86,9 +72,6 @@ def min_func_variance(weights):
 
 def min_func_sharpe(weights):
     return -statistics(weights)[2]
-
-
-
 
 # Sidebar
 st.sidebar.header('Select starting year')
