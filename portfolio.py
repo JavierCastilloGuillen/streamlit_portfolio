@@ -247,7 +247,7 @@ expander.markdown("""
     * Note this is a public example, some capabilities are limited to simplify the app. If you have a doubt or you wish any other usage, get in touch.
     * Limitations: Number of iteration for MCS, number of assets, dates, data source, metrics to get specific porftolios other than Sharpe and Volatility, etc. 
     * If you've got any feedback or comment, I'll be happy to read it ;). 
-    * For this examples, ideas and more contact [here.](https://jcgmarkets.com/en/javier-castillo/)
+    * For this examples, ideas and more contact [here.](https://javiercg.com/javier-castillo/)
     """)
 
 st.write("""
