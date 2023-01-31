@@ -1,7 +1,7 @@
 import numpy as np
 import datetime as dt
 import pandas as pd
-import pandas_datareader as pdr
+import yfinance as yf
 import matplotlib.pyplot as plt
 import scipy.optimize as sco
 import streamlit as st
@@ -26,7 +26,7 @@ def get_data(symbols):
     startday = 1
     start = dt.datetime(startyear, startmonth, startday)
     now = dt.datetime.now()
-    data = pdr.get_data_yahoo(symbols, start , now)
+    data = yf.download(symbols, start , now)
     data = data['Adj Close']
     return data
 
