@@ -4,7 +4,6 @@ import streamlit as st
 import scipy.optimize as sco
 import seaborn as sns
 from streamlit_tags import st_tags_sidebar
-import plotly.graph_objects as go
 from helpers import  current_year, get_data, create_returns_plot, create_chart, create_ef_ft, show_ef_ft_port
 sns.set_theme()
 
@@ -16,7 +15,6 @@ st.write("""
 """)
 
 def main():
-
 
     def min_func_port(weights):
         return statistics(weights)[1]
@@ -32,8 +30,6 @@ def main():
 
     def min_func_sharpe(weights):
         return -statistics(weights)[2]
-
-
 
     # Sidebar for year selection
     st.sidebar.header('Select starting year')
@@ -61,7 +57,6 @@ def main():
     if len(symbols) == 0:
         st.sidebar.warning("⚠️ Please select your stocks first.")
 
-
     # Convert all symbols to uppercase
     symbols = [symbol.upper() for symbol in symbols]
 
@@ -72,9 +67,7 @@ def main():
     
     
     st.sidebar.markdown("")
-
     st.sidebar.markdown("")
-
     st.sidebar.markdown("---")
 
     with st.sidebar:
