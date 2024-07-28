@@ -7,3 +7,4 @@ matplotlib==3.5.1
 streamlit==1.2.0
 plotly==5.4.0
 streamlit-tags==1.2.8
+yfinance==0.2.41
