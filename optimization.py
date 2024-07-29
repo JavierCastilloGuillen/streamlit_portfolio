@@ -6,7 +6,6 @@ import scipy.optimize as sco
 
 
 def run_optimization(data, weights, noa):
-    st.write(st.session_state)
     if not st.session_state.run_button_clicked:
         st.info("ℹ️ Please confirm your stocks first. Select and Go")
 
