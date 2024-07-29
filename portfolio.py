@@ -2,10 +2,8 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 
-import seaborn as sns
 from helpers import  current_year, get_data, create_returns_plot, create_chart, create_ef_ft, show_ef_ft_port, stock_input
 from optimization import run_optimization
-sns.set_theme()
 
 
 option = st.sidebar.selectbox('Sections', ('test1','Portfolio Optimization','test3','Information and Disclaimer'))
@@ -74,7 +72,11 @@ def main():
 
 
     if option == 'Portfolio Optimization':
-        run_optimization(data, weights)
+        if not st.session_state.run_button_clicked:
+            st.info("ℹ️ Please confirm your stocks first. Select and Go")
+        
+        else:
+            run_optimization(data, weights, noa)
 
 
     if option == 'test3':
