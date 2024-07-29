@@ -5,6 +5,8 @@ import plotly.express as px
 import streamlit as st
 import pandas as pd
 from streamlit_tags import st_tags_sidebar
+import seaborn as sns
+sns.set_theme()
 
 
 current_year = dt.datetime.now().year
