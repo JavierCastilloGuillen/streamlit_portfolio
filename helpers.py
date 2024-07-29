@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 import streamlit as st
 import pandas as pd
+from streamlit_tags import st_tags_sidebar
 
 
 current_year = dt.datetime.now().year
@@ -55,6 +56,29 @@ def create_returns_plot(returns):
     fig = px.line(returns, title='Simple Returns Plot')
     return fig
 
+def stock_input():
+    if 'stocks' not in st.session_state:
+        st.session_state.stocks = ['AAPL']
+
+    symbols = st_tags_sidebar(
+        label='Tickers on Portfolio',
+        text='Press enter to add more',
+        value=st.session_state.stocks,
+        suggestions=['AAPL', 'MSFT', 'JPM'],
+        maxtags=20,
+        key='1'
+    )
+    
+    if len(symbols) == 0:
+        st.sidebar.warning("⚠️ Please select your stocks first.")
+
+    # Convert all symbols to uppercase
+    symbols = [symbol.upper() for symbol in symbols]
+
+    # Update session state with current symbols
+    st.session_state.stocks = symbols
+    st.session_state.stocks_opt = symbols
+
 def get_data(symbols, startyear):
     startmonth = 1
     startday = 1
@@ -85,7 +109,6 @@ def get_data(symbols, startyear):
     else:
         st.sidebar.error("No valid symbols provided. Please enter valid stock symbols.")
         return pd.DataFrame()
-
 
 def create_ef_ft(pvols, prets):
     sharpe_ratios = prets / pvols
